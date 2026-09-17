@@ -1,4 +1,4 @@
-# 拼音练习场 · Chinese Pinyin Typing Trainer
+# Chinese Pinyin Typing Trainer
 
 A website for practising **Chinese pinyin typing**: it shows random Chinese words, you type
 the pinyin, and it tells you exactly which syllable or tone was wrong. It also includes a
