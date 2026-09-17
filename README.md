@@ -1,8 +1,8 @@
-# 拼音练习场 · Chinese Pinyin Typing Trainer
+# Chinese Pinyin Typing Trainer
 
 A website for practising **Chinese pinyin typing**: it shows random Chinese words, you type
 the pinyin, and it tells you exactly which syllable or tone was wrong. It also includes a
-**pinyin library** that turns any Chinese text into pinyin, and a **progress** screen with
+pinyin library that turns any Chinese text into pinyin, and a progress screen with
 accuracy, typing speed and weak-word tracking.
 
 **Full stack, no third-party dependencies.** A Python standard-library backend
@@ -15,9 +15,9 @@ the static seed data and `localStorage`, and can migrate that data up later.
 ## Quick start
 
 ```powershell
-cd C:\Users\cheun\pinyin
+cd ur file location
 
-npm run db:build      # create + seed var/trainer.db   (once; ~20 s)
+npm run db:build      # create + seed var/trainer.db   (once; ~20 s)#or python tools/build_databse.py
 npm start             # python -m server  ->  http://127.0.0.1:8000/
 ```
 
@@ -70,46 +70,11 @@ The browser can only match a 5,000-word list and guesses a character's most comm
 reading. The server segments against **411,857 dictionary phrases** with a dynamic
 program that prefers the longest match, so polyphones resolve from context:
 
-| Input | Server | Character-only lookup would give |
-|---|---|---|
-| 银行 | yín **háng** | yín xíng ❌ |
-| 行走 | xíng zǒu | xíng zǒu ✅ |
-| 音乐 | yīn **yuè** | yīn lè ❌ |
-| 快乐 | kuài **lè** | kuài lè ✅ |
-| 重庆 | **chóng** qìng | zhòng qìng ❌ |
-| 头发 | tóu **fà** | tóu fā ❌ |
-| 喜欢 | xǐ **huan** (neutral) | xǐ huān ❌ |
-
 It also applies the 一/不 tone-sandhi rules for characters resolved individually, and
 flags anything it had to fall back on so the UI can warn. `pypinyin` is used
 automatically if it happens to be installed, otherwise the engine runs standalone.
 
 ---
-
-## How 多音字 are handled
-
-**1,532 of the 3,796 characters** in the dictionary have more than one reading (40%),
-so this is the central problem the engine exists to solve. Three mechanisms, in
-priority order:
-
-**1. Context, via the phrase dictionary.** A *word*, not a character, is the unit of
-pronunciation. Common pairs that differ only by a polyphone all resolve correctly:
-银行/行走, 音乐/快乐, 重要/重庆, 发现/头发, 还是/归还, 觉得/睡觉, 数学/数一数,
-参加/人参, 高兴/兴奋, 应该/应用, 差别/出差, 只有/一只, 方便/便宜. It is also why
-喜欢 is `xǐ huan` with a neutral second syllable rather than `huān`.
-
-**2. Traditional input is normalised before matching.** The word and phrase tables are
-keyed on simplified text (the upstream data is simplified-only), so traditional input
-passes through a character map first — while the segments still display the characters
-the learner actually typed. This covers the standard forms (銀行, 音樂, 重慶, 頭髮),
-OpenCC's extra variants (发 → 發 *and* 髮, 里 → 裏 *and* 裡, 台 → 臺/檯/颱), and the
-Taiwan/Hong Kong forms held in OpenCC's separate `TWVariants` dictionary (為, 裡).
-
-**3. A lone character accepts every reading.** With no context, the dictionary stores a
-primary reading plus the alternatives and the grader accepts any of them: 长 takes
-`zhǎng` **or** `cháng`, 了 takes `le`/`liǎo`/`liào`, 差 takes
-`chà`/`chā`/`chāi`/`cī`/`chài`. A learner is never marked wrong for a legitimate
-reading.
 
 ### Where it is still wrong
 
@@ -385,10 +350,10 @@ forgiving about *format* and strict about *content*:
 | `xue2xiao4`, `xué xiào`, `xuéxiào`, `XUE2XIAO4`, `xue2-xiao4` | all accepted |
 | `xue xiao` | rejected while "require tones" is on; accepted when it is off |
 | `xue1xiao4` | rejected, and reported as *"Tone is wrong on syllable 1"* |
-| `lu4` for 绿 `lǜ` | accepted by default (lenient ü); rejected if "distinguish ü from u" is on |
+| `lu4` for 綠 `lǜ` | accepted by default (lenient ü); rejected if "distinguish ü from u" is on |
 | `yi1ge4` for 一个 `yí gè` | accepted — 一/不 tone sandhi counts as correct |
 | `peng2you` for 朋友 `péng you` | accepted — neutral tone may be written, omitted, or as `5` |
-| `chang2` for 长 `zhǎng` | accepted — single characters accept any of their real readings |
+| `chang2` for 長 `zhǎng` | accepted — single characters accept any of their real readings |
 | `xúe` (mark on the wrong vowel) | accepted — the tone is read, not its position |
 
 Vocabulary segmentation is handled by a dynamic-programming splitter over the ~410 valid
