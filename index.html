@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>拼音练习场 · Pinyin Typing Trainer</title>
+<meta name="description" content="Practise typing Chinese pinyin: random word drills, a pinyin lookup library, and progress tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2314b8a6'/><text x='16' y='23' font-size='19' text-anchor='middle' fill='%23052e2b' font-family='sans-serif' font-weight='700'>P</text></svg>">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/views.css">
+</head>
+<body>
+<a class="skip-link" href="#outlet">Skip to content</a>
+
+<div class="app" id="app">
+  <!-- Sidebar nav is rendered by assets/js/app-shell.js so the active route stays in sync -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation"></aside>
+
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="outlet" id="outlet" tabindex="-1"></main>
+    <footer class="appfooter">
+      <span>UI prototype · front-end only</span>
+      <span class="dot" aria-hidden="true">·</span>
+      <span>dictionary data is a static seed, not the final database</span>
+    </footer>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<div class="modal-root" id="modal-root"></div>
+
+<noscript>
+  <p style="padding:2rem;font-family:sans-serif">
+    This trainer needs JavaScript enabled.
+  </p>
+</noscript>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

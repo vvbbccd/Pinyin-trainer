@@ -1,0 +1,16 @@
+# .tmp is disposable scratch (downloaded datasets, check logs, test runs)
+.tmp/
+
+# the SQLite database is generated state - rebuild with: npm run db:build
+var/
+
+# dev-only test harness
+node_modules/
+package-lock.json
+
+# editor / OS noise
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+*.log

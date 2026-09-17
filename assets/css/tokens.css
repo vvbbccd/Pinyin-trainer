@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Design tokens
+   Two themes: dark (default) and light. Everything else references these.
+   ========================================================================== */
+
+:root {
+  /* brand: jade / teal, reads well against both themes */
+  --jade-100: #ccfbf1;
+  --jade-200: #99f6e4;
+  --jade-300: #5eead4;
+  --jade-400: #2dd4bf;
+  --jade-500: #14b8a6;
+  --jade-600: #0d9488;
+  --jade-700: #0f766e;
+  --jade-900: #134e4a;
+
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+
+  /* type */
+  --font-ui: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --font-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+              "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+  --font-pinyin: "Charis SIL", "Doulos SIL", "Gentium Plus", "Segoe UI", var(--font-ui);
+  --font-mono: "JetBrains Mono", "Cascadia Mono", "SF Mono", Consolas, "Courier New", monospace;
+
+  --fs-3xs: 0.6875rem; /* 11 */
+  --fs-2xs: 0.75rem;   /* 12 */
+  --fs-xs: 0.8125rem;  /* 13 */
+  --fs-sm: 0.875rem;   /* 14 */
+  --fs-md: 1rem;       /* 16 */
+  --fs-lg: 1.125rem;   /* 18 */
+  --fs-xl: 1.375rem;   /* 22 */
+  --fs-2xl: 1.75rem;   /* 28 */
+  --fs-3xl: 2.25rem;   /* 36 */
+  --fs-4xl: 3rem;      /* 48 */
+  --fs-cjk-hero: clamp(3.5rem, 12vw, 7rem);
+
+  /* spacing */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+
+  /* shape */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  --sidebar-w: 244px;
+  --outlet-max: 1180px;
+  --transition: 140ms cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------- dark --- */
+[data-theme="dark"] {
+  --bg: #0b1220;
+  --bg-grad-1: rgba(20, 184, 166, 0.10);
+  --bg-grad-2: rgba(59, 130, 246, 0.08);
+  --surface: #111a2b;
+  --surface-2: #16203442;
+  --surface-3: #1b2740;
+  --surface-raised: #16203a;
+  --border: #24314b;
+  --border-strong: #33415e;
+  --text: #e8edf7;
+  --text-muted: #9aa8c2;
+  --text-faint: #6b7a96;
+
+  --accent: var(--jade-400);
+  --accent-strong: var(--jade-300);
+  --accent-ink: #04241f;
+  --accent-soft: rgba(45, 212, 191, 0.14);
+  --accent-soft-2: rgba(45, 212, 191, 0.22);
+
+  --success: var(--green-400);
+  --success-soft: rgba(74, 222, 128, 0.14);
+  --danger: var(--red-400);
+  --danger-soft: rgba(248, 113, 113, 0.14);
+  --warning: var(--amber-400);
+  --warning-soft: rgba(251, 191, 36, 0.14);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, 0.85);
+  --ring: 0 0 0 3px rgba(45, 212, 191, 0.35);
+}
+
+/* --------------------------------------------------------------- light --- */
+[data-theme="light"] {
+  --bg: #f6f8fb;
+  --bg-grad-1: rgba(20, 184, 166, 0.12);
+  --bg-grad-2: rgba(59, 130, 246, 0.10);
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e8eef6;
+  --surface-raised: #ffffff;
+  --border: #dfe6ef;
+  --border-strong: #c3cedd;
+  --text: #101a2c;
+  --text-muted: #56637a;
+  --text-faint: #8593a8;
+
+  --accent: var(--jade-600);
+  --accent-strong: var(--jade-700);
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(13, 148, 136, 0.10);
+  --accent-soft-2: rgba(13, 148, 136, 0.18);
+
+  --success: #15803d;
+  --success-soft: rgba(34, 197, 94, 0.13);
+  --danger: var(--red-600);
+  --danger-soft: rgba(220, 38, 38, 0.10);
+  --warning: #b45309;
+  --warning-soft: rgba(245, 158, 11, 0.16);
+
+  --shadow-sm: 0 1px 2px rgba(16, 26, 44, 0.07);
+  --shadow: 0 10px 26px -16px rgba(16, 26, 44, 0.35);
+  --shadow-lg: 0 24px 60px -28px rgba(16, 26, 44, 0.4);
+  --ring: 0 0 0 3px rgba(13, 148, 136, 0.28);
+}

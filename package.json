@@ -1,0 +1,26 @@
+{
+  "name": "pinyin-typing-trainer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Chinese pinyin typing trainer - static front-end plus a dependency-free Python/SQLite backend",
+  "scripts": {
+    "start": "python -m server",
+    "serve": "python -m http.server 8123 --bind 127.0.0.1",
+    "db:build": "python tools/build_database.py",
+    "db:rebuild": "python tools/build_database.py --force",
+    "data:fetch": "python tools/fetch_data.py",
+    "data:build": "python tools/build_dictionary.py",
+    "data:check": "python tools/check_dictionary.py && python tools/tests/check_script_coverage.py",
+    "data:all": "python tools/fetch_data.py && python tools/build_dictionary.py && python tools/check_dictionary.py && python tools/tests/check_script_coverage.py",
+    "test": "node tools/tests/test_pinyin.mjs && node tools/tests/test_imports.mjs",
+    "test:server": "python tools/tests/test_server.py",
+    "test:smoke": "node tools/tests/smoke.mjs",
+    "test:integration": "node tools/tests/test_integration.mjs",
+    "test:all": "npm test && npm run test:server && npm run test:smoke"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1"
+  }
+}
+

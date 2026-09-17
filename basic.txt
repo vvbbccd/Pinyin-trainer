@@ -1,0 +1,84 @@
+Chinese Pinyin Typing Trainer Overall strucure
+│
+├── Home / Dashboard
+│   ├── Start Training
+│   ├── Pinyin Library
+│   ├── Progress / Statistics
+│   └── Settings
+│
+├── Pinyin Training
+│   ├── Difficulty selection
+│   ├── Training session
+│   │   ├── Random Chinese word
+│   │   ├── Pinyin input
+│   │   ├── Submit / Enter
+│   │   ├── Correct / Incorrect feedback
+│   │   └── Next word
+│   └── Session results
+│
+├── Pinyin Library
+│   ├── Chinese word input
+│   ├── Pinyin lookup
+│   └── Search history / saved words
+│
+└── User / Progress
+    ├── Accuracy
+    ├── Typing speed
+    ├── Words practiced
+    ├── Weak words
+    └── Training history
+Database structure
+│
+├── chinese_words
+├── training_sessions
+├── training_answers
+├── user_progress
+
+Class content
+CHINESE_WORD
+------------
+id
+simplified
+traditional
+frequency
+
+TRAINING_SESSION
+----------------
+id
+user_id
+started_at
+finished_at
+score
+
+TRAINING_ANSWER
+---------------
+id
+session_id
+word_id
+user_answer
+correct_answer
+is_correct
+response_time_ms
+
+USER_WORD_PROGRESS
+------------------
+id
+word_id
+attempts
+correct_attempts
+last_attempt
+mastery_score
+
+UML flow
+USER_WORD_PROGRESS
+ │
+ ├──── Training Sessions
+ │              │
+ │              └──── Training Answers
+ │                           │
+ │                           └──── Chinese Word
+
+
+Training example:
+Website gives 学校(simplified version) or 學校(traditional version)， user enter xuexiao.
+ 
