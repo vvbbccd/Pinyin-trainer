@@ -64,17 +64,6 @@ browser  ──HTTP──▶  server/ (WSGI, stdlib)  ──SQL──▶  var/tr
 | Frontend client | `assets/js/api.js` | fetch wrapper, probe, base-URL handling |
 | State | `assets/js/store.js` | server mode with optimistic writes, local fallback |
 
-### The lookup engine
-
-The browser can only match a 5,000-word list and guesses a character's most common
-reading. The server segments against **411,857 dictionary phrases** with a dynamic
-program that prefers the longest match, so polyphones resolve from context:
-
-It also applies the 一/不 tone-sandhi rules for characters resolved individually, and
-flags anything it had to fall back on so the UI can warn. `pypinyin` is used
-automatically if it happens to be installed, otherwise the engine runs standalone.
-
----
 
 ### Where it is still wrong
 
@@ -142,18 +131,18 @@ Word objects use the compact keys the client already consumes:
 
 `var/trainer.db` (SQLite, ~12 MB) is built by `tools/build_database.py`:
 
-| Table | Rows | From `basic.txt` |
+| Table | Rows | Introduction |
 |---|---|---|
 | `chinese_words` | 5,000 | CHINESE_WORD |
-| `training_sessions` | — | TRAINING_SESSION |
-| `training_answers` | — | TRAINING_ANSWER |
+| `training_sessions` | — | record the data of each training session|
+| `training_answers` | — | check for the accuracy, owned by training session |
 | `user_word_progress` | — | USER_WORD_PROGRESS |
-| `users` | 1 | *(new — gives `user_id` a target)* |
-| `saved_words`, `lookup_history` | — | *(new — the Library)* |
-| `user_settings` | — | *(new — server-side preferences)* |
-| `phrase_pinyin` | 411,857 | *(new — context-correct readings)* |
-| `char_pinyin` | 3,796 | *(new — per-character fallback)* |
-| `script_map` | 1,917 | *(new — simplified ↔ traditional, both directions)* |
+| `users` | 1 | gives `user_id` in word_progress a target |
+| `saved_words`, `lookup_history` | — | THE LIBRARY |
+| `user_settings` | — | server-side preferences |
+| `phrase_pinyin` | 411,857 | context-correct readings |
+| `char_pinyin` | 3,796 | per-character fallback |
+| `script_map` | 1,917 | simplified ↔ traditional, both directions |
 
 **Deviations from the classes** (all deliberate):
 
@@ -232,30 +221,6 @@ npm run test:integration                      # in another
 
 ---
 
-## Fixed since the first version
-
-* **Sidebar/top bar highlighted the previous route.** The shell listened to raw
-  `hashchange` events, which fired *before* the router committed the new path. It now
-  uses the router's `onRouteChange` hook. Regression-tested.
-* **Interface Chinese stayed simplified in Traditional mode.** The nav brand, hero,
-  library example chips and placeholder were hardcoded simplified. They now go through
-  `applyScript()` using `data/script.json`. Regression-tested.
-* Traditional input is now also *looked up* correctly in the Library (the segment matcher
-  consults both indexes), and `chars.json` was extended with traditional characters.
-* **The backend console crashed on cp950 terminals** when printing its Chinese banner;
-  entry points now reconfigure stdout to UTF-8 with replacement characters.
-* **Phrase lookup returned stale results from cache** — a second lookup of the same text
-  silently fell back to character readings because only freshly-queried phrases were
-  returned. Caught by the backend test suite.
-* **Traditional input produced wrong readings on the server** — 銀行 came out
-  `yín xíng`, 音樂 `yīn lè`, 重慶 `zhòng qìng`. The word and phrase tables are keyed on
-  simplified text, and the server never normalised. It now maps traditional input
-  through `script_map` before matching, covering OpenCC's multiple variants
-  (发 → 發 *and* 髮) and the Taiwan forms in `TWVariants` (為, 裡). Regression-tested
-  against six polyphone pairs plus the variant and Taiwan cases.
-* `Database.stats()` did not know about `script_map`, so `/api/health` silently reported
-  it as absent. Caught by the new test.
-
 
 ## Screens
 
@@ -280,25 +245,6 @@ npm run test:integration                      # in another
 * Endless mode tops the queue up as you go; fixed sessions end with a results screen.
 
 ---
-
-## How answers are graded
-
-`assets/js/pinyin.js` is the engine (covered by 83 unit tests). It is deliberately
-forgiving about *format* and strict about *content*:
-
-| Input | Verdict |
-|---|---|
-| `xue2xiao4`, `xué xiào`, `xuéxiào`, `XUE2XIAO4`, `xue2-xiao4` | all accepted |
-| `xue xiao` | rejected while "require tones" is on; accepted when it is off |
-| `xue1xiao4` | rejected, and reported as *"Tone is wrong on syllable 1"* |
-| `lu4` for 綠 `lǜ` | accepted by default (lenient ü); rejected if "distinguish ü from u" is on |
-| `yi1ge4` for 一个 `yí gè` | accepted — 一/不 tone sandhi counts as correct |
-| `peng2you` for 朋友 `péng you` | accepted — neutral tone may be written, omitted, or as `5` |
-| `chang2` for 長 `zhǎng` | accepted — single characters accept any of their real readings |
-| `xúe` (mark on the wrong vowel) | accepted — the tone is read, not its position |
-
-Vocabulary segmentation is handled by a dynamic-programming splitter over the ~410 valid
-pinyin syllables, so unseparated input like `gong1gong4qi4che1` is graded per syllable.
 
 ## Data pipeline
 
